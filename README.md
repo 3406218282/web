@@ -207,3 +207,234 @@ src/main/java/com/restaurant/orderingsystem/
 │   └── impl/           # 服务实现
 └── util/               # 工具类
 ```
+
+## 接口测试说明
+
+### 1. 登录与认证
+
+#### 登录
+- **接口**：`POST /api/auth/login`
+- **请求体**：
+```json
+{
+  "username": "user",
+  "password": "user123"
+}
+```
+- **返回示例**：
+```json
+{
+  "token": "<JWT_TOKEN>",
+  "type": "Bearer",
+  "id": 3,
+  "username": "user",
+  "fullName": "Regular User",
+  "email": "user@restaurant.com",
+  "role": "USER"
+}
+```
+
+#### 登出
+- **接口**：`POST /api/auth/logout`
+- **请求头**：`Authorization: Bearer <JWT_TOKEN>`
+- **返回**：`User logged out successfully!`
+
+---
+
+### 2. 菜单管理
+
+#### 获取所有菜品
+- **接口**：`GET /api/menu`
+- **返回示例**：
+```json
+[
+  {
+    "id": 1,
+    "name": "Grilled Chicken",
+    "description": "Tender grilled chicken with herbs and spices",
+    "price": 15.99,
+    "category": { "id": 1, "name": "Main Course" },
+    "imageUrl": null,
+    "availability": "AVAILABLE"
+  },
+  ...
+]
+```
+
+#### 获取菜品详情
+- **接口**：`GET /api/menu/1`
+
+#### 按分类获取菜品
+- **接口**：`GET /api/menu/category/1`
+
+#### 搜索菜品
+- **接口**：`GET /api/menu/search?name=chicken`
+
+#### 添加菜品（管理员）
+- **接口**：`POST /api/menu`
+- **请求头**：`Authorization: Bearer <admin_token>`
+- **请求体**：
+```json
+{
+  "name": "Fried Rice",
+  "description": "Classic fried rice with vegetables",
+  "price": 10.99,
+  "category": { "id": 1 },
+  "availability": "AVAILABLE"
+}
+```
+
+#### 更新菜品（管理员）
+- **接口**：`PUT /api/menu/1`
+- **请求头**：`Authorization: Bearer <admin_token>`
+- **请求体**：同上
+
+#### 删除菜品（管理员）
+- **接口**：`DELETE /api/menu/1`
+- **请求头**：`Authorization: Bearer <admin_token>`
+
+---
+
+### 3. 分类管理
+
+#### 获取所有分类
+- **接口**：`GET /api/categories`
+- **返回示例**：
+```json
+[
+  { "id": 1, "name": "Main Course", "description": "主菜" },
+  { "id": 2, "name": "Appetizer", "description": "前菜" }
+]
+```
+
+#### 添加分类（管理员）
+- **接口**：`POST /api/categories`
+- **请求头**：`Authorization: Bearer <admin_token>`
+- **请求体**：
+```json
+{
+  "name": "Soup",
+  "description": "各类汤品"
+}
+```
+
+---
+
+### 4. 购物车管理
+
+#### 添加菜品到购物车
+- **接口**：`POST /api/cart`
+- **请求头**：`Authorization: Bearer <user_token>`
+- **请求体**：
+```json
+{
+  "menuItemId": 1,
+  "quantity": 2
+}
+```
+
+#### 获取购物车
+- **接口**：`GET /api/cart`
+- **请求头**：`Authorization: Bearer <user_token>`
+- **返回示例**：
+```json
+{
+  "items": [
+    {
+      "id": 1,
+      "menuItemId": 1,
+      "menuItemName": "Grilled Chicken",
+      "price": 15.99,
+      "quantity": 2,
+      "totalPrice": 31.98
+    }
+  ],
+  "totalAmount": 31.98,
+  "totalItems": 2
+}
+```
+
+#### 更新购物车项数量
+- **接口**：`PUT /api/cart/1?quantity=3`
+- **请求头**：`Authorization: Bearer <user_token>`
+
+#### 删除购物车项
+- **接口**：`DELETE /api/cart/1`
+- **请求头**：`Authorization: Bearer <user_token>`
+
+#### 清空购物车
+- **接口**：`DELETE /api/cart`
+- **请求头**：`Authorization: Bearer <user_token>`
+
+---
+
+### 5. 订单管理
+
+#### 提交订单
+- **接口**：`POST /api/orders`
+- **请求头**：`Authorization: Bearer <user_token>`
+- **返回示例**：
+```json
+{
+  "id": 1,
+  "userId": 3,
+  "userName": "user",
+  "status": "PENDING",
+  "totalAmount": 31.98,
+  "items": [
+    {
+      "id": 1,
+      "menuItemId": 1,
+      "menuItemName": "Grilled Chicken",
+      "price": 15.99,
+      "quantity": 2,
+      "totalPrice": 31.98
+    }
+  ],
+  "createdAt": "2024-06-01T12:00:00",
+  "updatedAt": "2024-06-01T12:00:00"
+}
+```
+
+#### 获取我的订单
+- **接口**：`GET /api/orders/my-orders`
+- **请求头**：`Authorization: Bearer <user_token>`
+
+#### 获取订单详情
+- **接口**：`GET /api/orders/1`
+- **请求头**：`Authorization: Bearer <user_token>`
+
+#### 取消订单
+- **接口**：`PUT /api/orders/1/cancel`
+- **请求头**：`Authorization: Bearer <user_token>`
+
+#### 更新订单状态（厨师/管理员）
+- **接口**：`PUT /api/orders/1/status?status=PROCESSING`
+- **请求头**：`Authorization: Bearer <chef_token>`
+
+#### 获取待处理订单（厨师/管理员）
+- **接口**：`GET /api/orders/pending`
+- **请求头**：`Authorization: Bearer <chef_token>`
+
+#### 获取所有订单（管理员）
+- **接口**：`GET /api/orders`
+- **请求头**：`Authorization: Bearer <admin_token>`
+
+---
+
+### 推荐测试账号
+
+| 角色   | 用户名   | 密码      |
+| ------ | -------- | --------- |
+| 管理员 | admin    | admin123  |
+| 厨师   | chef     | chef123   |
+| 用户   | user     | user123   |
+
+---
+
+### 测试建议
+
+1. 先用`user`账号登录，完成购物车、下单、查单等流程。
+2. 用`admin`账号测试菜单、分类、订单管理等接口。
+3. 用`chef`账号测试订单状态流转。
+4. 可用Postman、Apifox等工具导入上述接口和数据进行批量测试。
