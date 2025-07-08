@@ -1,10 +1,6 @@
 package com.restaurant.orderingsystem.dto;
 
 import com.restaurant.orderingsystem.entity.CartItem;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,14 +8,24 @@ import java.util.stream.Collectors;
 /**
  * 购物车响应DTO
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class CartResponse {
     
     private List<CartItemResponse> items;
     private BigDecimal totalAmount;
     private int totalItems;
+    
+    public CartResponse() {}
+    public CartResponse(List<CartItemResponse> items, BigDecimal totalAmount, int totalItems) {
+        this.items = items;
+        this.totalAmount = totalAmount;
+        this.totalItems = totalItems;
+    }
+    public List<CartItemResponse> getItems() { return items; }
+    public void setItems(List<CartItemResponse> items) { this.items = items; }
+    public BigDecimal getTotalAmount() { return totalAmount; }
+    public void setTotalAmount(BigDecimal totalAmount) { this.totalAmount = totalAmount; }
+    public int getTotalItems() { return totalItems; }
+    public void setTotalItems(int totalItems) { this.totalItems = totalItems; }
     
     /**
      * 从购物车项列表创建购物车响应DTO

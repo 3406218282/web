@@ -100,10 +100,10 @@
 
 ## 主要功能
 
-### 1. 用户认证与授权
+### 1. 用户认证
 
-- 用户登录：`POST /api/auth/login`
-- 用户登出：`POST /api/auth/logout`
+- 登录：`POST /api/auth/login`
+- 登出：`POST /api/auth/logout`
 
 ### 2. 菜单管理
 
@@ -113,6 +113,7 @@
 - 搜索菜品：`GET /api/menu/search?name={name}`
 - 添加菜品（管理员）：`POST /api/menu`
 - 更新菜品（管理员）：`PUT /api/menu/{id}`
+- 修改菜品上下架（管理员）：`PUT /api/menu/{id}/availability`
 - 删除菜品（管理员）：`DELETE /api/menu/{id}`
 
 ### 3. 分类管理

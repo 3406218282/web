@@ -1,6 +1,6 @@
 package com.restaurant.orderingsystem.controller;
 
-import com.restaurant.orderingsystem.dto.JwtResponse;
+import com.restaurant.orderingsystem.dto.AuthTokenResponse;
 import com.restaurant.orderingsystem.dto.LoginRequest;
 import com.restaurant.orderingsystem.entity.User;
 import com.restaurant.orderingsystem.repository.UserRepository;
@@ -45,7 +45,7 @@ public class AuthController {
                 .map(item -> item.getAuthority().replace("ROLE_", ""))
                 .orElse("");
 
-        return ResponseEntity.ok(new JwtResponse(
+        return ResponseEntity.ok(new AuthTokenResponse(
                 jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),

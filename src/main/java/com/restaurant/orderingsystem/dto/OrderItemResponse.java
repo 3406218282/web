@@ -1,18 +1,12 @@
 package com.restaurant.orderingsystem.dto;
 
 import com.restaurant.orderingsystem.entity.OrderItem;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 /**
  * 订单项响应DTO
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class OrderItemResponse {
     
     private Long id;
@@ -22,6 +16,29 @@ public class OrderItemResponse {
     private BigDecimal price;
     private Integer quantity;
     private BigDecimal totalPrice;
+    
+    public OrderItemResponse() {}
+    
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public Long getMenuItemId() { return menuItemId; }
+    public void setMenuItemId(Long menuItemId) { this.menuItemId = menuItemId; }
+    
+    public String getMenuItemName() { return menuItemName; }
+    public void setMenuItemName(String menuItemName) { this.menuItemName = menuItemName; }
+    
+    public String getMenuItemImageUrl() { return menuItemImageUrl; }
+    public void setMenuItemImageUrl(String menuItemImageUrl) { this.menuItemImageUrl = menuItemImageUrl; }
+    
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
+    
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
+    
+    public BigDecimal getTotalPrice() { return totalPrice; }
+    public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice; }
     
     /**
      * 从订单项实体创建响应DTO
